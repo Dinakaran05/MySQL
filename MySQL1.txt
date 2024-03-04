@@ -1,0 +1,553 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 12
+Server version: 8.3.0 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2024, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| college            |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.02 sec)
+
+mysql> use college;
+Database changed
+mysql> create table employee(Emp_id INT PRIMARY KEY,Ename VARCHAR(20),Job_desc VARCHAR(30));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> DESCRIBE employee;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| Emp_id   | int         | NO   | PRI | NULL    |       |
+| Ename    | varchar(20) | YES  |     | NULL    |       |
+| Job_desc | varchar(30) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> ALTER TABLE employee ADD salary INT ;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESCRIBE employee;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| Emp_id   | int         | NO   | PRI | NULL    |       |
+| Ename    | varchar(20) | YES  |     | NULL    |       |
+| Job_desc | varchar(30) | YES  |     | NULL    |       |
+| salary   | int         | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> INSERT INTO employee VALUES (1,"RAM","admin",1000000),(2,"GEORGE","manager",2500000),(3,"GOPAL","HR",2000000),(4,"RAM","SALES"
+,1300000);
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM employee;
++--------+--------+----------+---------+
+| Emp_id | Ename  | Job_desc | salary  |
++--------+--------+----------+---------+
+|      1 | RAM    | admin    | 1000000 |
+|      2 | GEORGE | manager  | 2500000 |
+|      3 | GOPAL  | HR       | 2000000 |
+|      4 | RAM    | SALES    | 1300000 |
++--------+--------+----------+---------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT * FROM employee
+    -> WHERE ename = "RAM";
++--------+-------+----------+---------+
+| Emp_id | Ename | Job_desc | salary  |
++--------+-------+----------+---------+
+|      1 | RAM   | admin    | 1000000 |
+|      4 | RAM   | SALES    | 1300000 |
++--------+-------+----------+---------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM employee
+    -> WHERE salary < 2000000 ;
++--------+-------+----------+---------+
+| Emp_id | Ename | Job_desc | salary  |
++--------+-------+----------+---------+
+|      1 | RAM   | admin    | 1000000 |
+|      4 | RAM   | SALES    | 1300000 |
++--------+-------+----------+---------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM employee
+    -> WHERE Job_desc = "admin" ;
++--------+-------+----------+---------+
+| Emp_id | Ename | Job_desc | salary  |
++--------+-------+----------+---------+
+|      1 | RAM   | admin    | 1000000 |
++--------+-------+----------+---------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM employee
+    -> WHERE salary <= 2500000 AND Job_desc = "manager" ;
++--------+--------+----------+---------+
+| Emp_id | Ename  | Job_desc | salary  |
++--------+--------+----------+---------+
+|      2 | GEORGE | manager  | 2500000 |
++--------+--------+----------+---------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM employee
+    -> WHERE salary IN (2000000,1300000);
++--------+-------+----------+---------+
+| Emp_id | Ename | Job_desc | salary  |
++--------+-------+----------+---------+
+|      3 | GOPAL | HR       | 2000000 |
+|      4 | RAM   | SALES    | 1300000 |
++--------+-------+----------+---------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM employee
+    -> WHERE salary NOT IN (2000000,1300000);
++--------+--------+----------+---------+
+| Emp_id | Ename  | Job_desc | salary  |
++--------+--------+----------+---------+
+|      1 | RAM    | admin    | 1000000 |
+|      2 | GEORGE | manager  | 2500000 |
++--------+--------+----------+---------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM employee
+    -> WHERE salary BETWEEN 2000000 AND 1300000;
+Empty set (0.01 sec)
+
+mysql> SELECT * FROM employee
+    -> LIMIT 2;
++--------+--------+----------+---------+
+| Emp_id | Ename  | Job_desc | salary  |
++--------+--------+----------+---------+
+|      1 | RAM    | admin    | 1000000 |
+|      2 | GEORGE | manager  | 2500000 |
++--------+--------+----------+---------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM employee
+    -> WHERE ename LIKE 'R%';
++--------+-------+----------+---------+
+| Emp_id | Ename | Job_desc | salary  |
++--------+-------+----------+---------+
+|      1 | RAM   | admin    | 1000000 |
+|      4 | RAM   | SALES    | 1300000 |
++--------+-------+----------+---------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM employee
+    -> WHERE ename LIKE 'R%M';
++--------+-------+----------+---------+
+| Emp_id | Ename | Job_desc | salary  |
++--------+-------+----------+---------+
+|      1 | RAM   | admin    | 1000000 |
+|      4 | RAM   | SALES    | 1300000 |
++--------+-------+----------+---------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM employee
+    -> WHERE ename LIKE '__O%';
++--------+--------+----------+---------+
+| Emp_id | Ename  | Job_desc | salary  |
++--------+--------+----------+---------+
+|      2 | GEORGE | manager  | 2500000 |
++--------+--------+----------+---------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM employee
+    -> SET WHERE Job_desc = "admin";
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SET WHERE Job_desc = "admin"' at line 2
+mysql> UPDATE employee
+    -> SET WHERE Job_desc = "admin";
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE Job_desc = "admin"' at line 2
+mysql> UPDATE employee
+    -> SET Job_desc = "analyst"
+    -> WHERE Job_desc = "admin";
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM employee;
++--------+--------+----------+---------+
+| Emp_id | Ename  | Job_desc | salary  |
++--------+--------+----------+---------+
+|      1 | RAM    | analyst  | 1000000 |
+|      2 | GEORGE | manager  | 2500000 |
+|      3 | GOPAL  | HR       | 2000000 |
+|      4 | RAM    | SALES    | 1300000 |
++--------+--------+----------+---------+
+4 rows in set (0.00 sec)
+
+mysql> DELETE FROM employee
+    -> WHERE id = 4;
+ERROR 1054 (42S22): Unknown column 'id' in 'where clause'
+mysql> DELETE FROM employee
+    -> WHERE Emp_id = 4;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM employee;
++--------+--------+----------+---------+
+| Emp_id | Ename  | Job_desc | salary  |
++--------+--------+----------+---------+
+|      1 | RAM    | analyst  | 1000000 |
+|      2 | GEORGE | manager  | 2500000 |
+|      3 | GOPAL  | HR       | 2000000 |
++--------+--------+----------+---------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT Job_desc
+    -> FROM employee;
++----------+
+| Job_desc |
++----------+
+| analyst  |
+| manager  |
+| HR       |
++----------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT DISTINCT Job_desc
+    -> FROM employee;
++----------+
+| Job_desc |
++----------+
+| analyst  |
+| manager  |
+| HR       |
++----------+
+3 rows in set (0.01 sec)
+
+mysql> SELECT * FROM employee
+    -> ORDER BY salary;
++--------+--------+----------+---------+
+| Emp_id | Ename  | Job_desc | salary  |
++--------+--------+----------+---------+
+|      1 | RAM    | analyst  | 1000000 |
+|      3 | GOPAL  | HR       | 2000000 |
+|      2 | GEORGE | manager  | 2500000 |
++--------+--------+----------+---------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM employee
+    -> ORDER BY salary DESC;
++--------+--------+----------+---------+
+| Emp_id | Ename  | Job_desc | salary  |
++--------+--------+----------+---------+
+|      2 | GEORGE | manager  | 2500000 |
+|      3 | GOPAL  | HR       | 2000000 |
+|      1 | RAM    | analyst  | 1000000 |
++--------+--------+----------+---------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM employee
+    -> ORDER BY Ename,salary;
++--------+--------+----------+---------+
+| Emp_id | Ename  | Job_desc | salary  |
++--------+--------+----------+---------+
+|      2 | GEORGE | manager  | 2500000 |
+|      3 | GOPAL  | HR       | 2000000 |
+|      1 | RAM    | analyst  | 1000000 |
++--------+--------+----------+---------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM employee
+    -> WHERE Job_desc = "manager"
+    -> ORDER BY salary ;
++--------+--------+----------+---------+
+| Emp_id | Ename  | Job_desc | salary  |
++--------+--------+----------+---------+
+|      2 | GEORGE | manager  | 2500000 |
++--------+--------+----------+---------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM employee
+    -> ORDER BY (CASE Job_desc
+    -> WHEN 'HR' THEN 1
+    -> WHEN 'analyst' THEN 2
+    -> WHEN 'manager' THEN 3
+    -> ELSE 100 END
+    -> );
++--------+--------+----------+---------+
+| Emp_id | Ename  | Job_desc | salary  |
++--------+--------+----------+---------+
+|      3 | GOPAL  | HR       | 2000000 |
+|      1 | RAM    | analyst  | 1000000 |
+|      2 | GEORGE | manager  | 2500000 |
++--------+--------+----------+---------+
+3 rows in set (0.00 sec)
+
+mysql> INSERT INTO employee VALUES (4,"RAM","SALES",2200000),(5,"LEO","CEO",1400000);
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM employee;
++--------+--------+----------+---------+
+| Emp_id | Ename  | Job_desc | salary  |
++--------+--------+----------+---------+
+|      1 | RAM    | analyst  | 1000000 |
+|      2 | GEORGE | manager  | 2500000 |
+|      3 | GOPAL  | HR       | 2000000 |
+|      4 | RAM    | SALES    | 2200000 |
+|      5 | LEO    | CEO      | 1400000 |
++--------+--------+----------+---------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT COUNT(*) FROM employee;
++----------+
+| COUNT(*) |
++----------+
+|        5 |
++----------+
+1 row in set (0.02 sec)
+
+mysql> SELECT COUNT(*) FROM employee
+    -> WHERE Job_desc = "manager";
++----------+
+| COUNT(*) |
++----------+
+|        1 |
++----------+
+1 row in set (0.01 sec)
+
+mysql> SELECT AVG(salary)
+    -> FROM employee;
++--------------+
+| AVG(salary)  |
++--------------+
+| 1820000.0000 |
++--------------+
+1 row in set (0.01 sec)
+
+mysql> SELECT SUM(salary)
+    -> FROM employee;
++-------------+
+| SUM(salary) |
++-------------+
+|     9100000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT MAX(salary)
+    -> FROM employee;
++-------------+
+| MAX(salary) |
++-------------+
+|     2500000 |
++-------------+
+1 row in set (0.01 sec)
+
+mysql> SELECT MIN(salary)
+    -> FROM employee;
++-------------+
+| MIN(salary) |
++-------------+
+|     1000000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT UCASE(Ename),salary
+    -> FROM employee;
++--------------+---------+
+| UCASE(Ename) | salary  |
++--------------+---------+
+| RAM          | 1000000 |
+| GEORGE       | 2500000 |
+| GOPAL        | 2000000 |
+| RAM          | 2200000 |
+| LEO          | 1400000 |
++--------------+---------+
+5 rows in set (0.01 sec)
+
+mysql> SELECT Ename,CHAR_LENGTH(Ename)
+    -> FROM employee;
++--------+--------------------+
+| Ename  | CHAR_LENGTH(Ename) |
++--------+--------------------+
+| RAM    |                  3 |
+| GEORGE |                  6 |
+| GOPAL  |                  5 |
+| RAM    |                  3 |
+| LEO    |                  3 |
++--------+--------------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT Ename,CONCAT('Rs.'salary')
+    '> FROM employee;
+    '> SELECT Ename,CONCAT('Rs.',salary)
+    '> FROM employee;
+    '> SELECT * FROM employee;
+    '> SELECT Ename,CONCAT('Rs.','salary');
+    '> SELECT Ename,CONCAT('Rs.','salary') FROM employee;
+    '> SELECT Ename,CONCAT('RS.',salary) FROM employee;
+    '>
+    '>
+    '> SELECT * FROM employee;
+    '> ^X^C
+mysql> SELECT * FROM employee;
++--------+--------+----------+---------+
+| Emp_id | Ename  | Job_desc | salary  |
++--------+--------+----------+---------+
+|      1 | RAM    | analyst  | 1000000 |
+|      2 | GEORGE | manager  | 2500000 |
+|      3 | GOPAL  | HR       | 2000000 |
+|      4 | RAM    | SALES    | 2200000 |
+|      5 | LEO    | CEO      | 1400000 |
++--------+--------+----------+---------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT Ename,CONCAT('Rs.',salary)
+    -> FROM employee;
++--------+----------------------+
+| Ename  | CONCAT('Rs.',salary) |
++--------+----------------------+
+| RAM    | Rs.1000000           |
+| GEORGE | Rs.2500000           |
+| GOPAL  | Rs.2000000           |
+| RAM    | Rs.2200000           |
+| LEO    | Rs.1400000           |
++--------+----------------------+
+5 rows in set (0.01 sec)
+
+mysql> UPDATE employee
+    -> SET Hire_date =" 2024-03-04";
+ERROR 1054 (42S22): Unknown column 'Hire_date' in 'field list'
+mysql> ALTER employee ADD Hire_date INT;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'employee ADD Hire_date INT' at line 1
+mysql> ALTER TABLE employee ADD COLUMN Hire_date DATE;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> UPDATE employee
+    -> SET Hire_date =" 2024-03-04";
+Query OK, 5 rows affected, 5 warnings (0.01 sec)
+Rows matched: 5  Changed: 5  Warnings: 5
+
+mysql> SELECT CURDATE();
++------------+
+| CURDATE()  |
++------------+
+| 2024-03-04 |
++------------+
+1 row in set (0.01 sec)
+
+mysql> SELECT NOW();
++---------------------+
+| NOW()               |
++---------------------+
+| 2024-03-04 10:39:53 |
++---------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT DATE_FORMAT();
+ERROR 1582 (42000): Incorrect parameter count in the call to native function 'DATE_FORMAT'
+mysql> SELECT DATE_FORMAT(CURDATE(),"%d,%m,%y);
+    "> SELECT DATE_FORMAT(CURDATE(),"%d,%m,%y");
+    "> ^X^X^X^X^X^X^X^X^C
+mysql> SELECT DATE_FORMAT(CURDATE(),"%d,%m,%y");
++-----------------------------------+
+| DATE_FORMAT(CURDATE(),"%d,%m,%y") |
++-----------------------------------+
+| 04,03,24                          |
++-----------------------------------+
+1 row in set (0.01 sec)
+
+mysql> SELECT DATEDIFF(CURDATE(),"2019/02/21") AS days;
++------+
+| days |
++------+
+| 1838 |
++------+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> SELECT DATE_ADD(CURDATE(),INTERVAL 1 WEEK) AS 'AFTER ONE DAY';
++---------------+
+| AFTER ONE DAY |
++---------------+
+| 2024-03-11    |
++---------------+
+1 row in set (0.01 sec)
+
+mysql> SELECT Job_desc,COUNT(Emp_id)
+    -> FROM employee
+    -> GROUP BY Job_desc;
++----------+---------------+
+| Job_desc | COUNT(Emp_id) |
++----------+---------------+
+| analyst  |             1 |
+| manager  |             1 |
+| HR       |             1 |
+| SALES    |             1 |
+| CEO      |             1 |
++----------+---------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT Job_desc,COUNT(Emp_id)>1;
+ERROR 1054 (42S22): Unknown column 'Job_desc' in 'field list'
+mysql> SELECT Job_desc,COUNT(Emp_id)
+    -> FROM employee
+    -> GROUP BY Job_desc
+    -> HAVING COUNT(Emp_id)>1;
+Empty set (0.00 sec)
+
+mysql> SELECT Job_desc,COUNT(Emp_id)
+    -> FROM employee
+    -> WHERE salary>1500000
+    -> GROUP BY Job_desc
+    -> HAVING COUNT(Emp_id)>1
+    -> ORDER BY Job_desc;
+Empty set (0.00 sec)
+
+mysql> DROP TABLE employee;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> CREATE TABLE employee (
+    -> emp_id INT PRIMARY KEY AUTO_INCREMENT, -- id will be auto incremented for new rows
+    -> ename VARCHAR(30) NOT NULL, -- null value cannot be inserted for the column
+    -> job_desc VARCHAR(20) DEFAULT 'unassigned', -- sets default when not mentioned
+    -> salary INT,
+    -> pan VARCHAR(10) UNIQUE,-- cannot contain duplicates
+    -> CHECK (salary>100000));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql>
+mysql> INSERT INTO employee(ename,salary) VALUES ('Ramya',1000000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO employee(ename,salary) VALUES ('Riya',10000); -- erros because of violation of salary check constraint
+ERROR 3819 (HY000): Check constraint 'employee_chk_1' is violated.
+mysql> SELECT * FROM employee;
++--------+-------+------------+---------+------+
+| emp_id | ename | job_desc   | salary  | pan  |
++--------+-------+------------+---------+------+
+|      1 | Ramya | unassigned | 1000000 | NULL |
++--------+-------+------------+---------+------+
+1 row in set (0.00 sec)
+
+mysql> DESCRIBE employee;
++----------+-------------+------+-----+------------+----------------+
+| Field    | Type        | Null | Key | Default    | Extra          |
++----------+-------------+------+-----+------------+----------------+
+| emp_id   | int         | NO   | PRI | NULL       | auto_increment |
+| ename    | varchar(30) | NO   |     | NULL       |                |
+| job_desc | varchar(20) | YES  |     | unassigned |                |
+| salary   | int         | YES  |     | NULL       |                |
+| pan      | varchar(10) | YES  | UNI | NULL       |                |
++----------+-------------+------+-----+------------+----------------+
+5 rows in set (0.00 sec)
+
+mysql>
